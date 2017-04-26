@@ -1,0 +1,38 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Table name: events
+#
+#  id             :integer          not null, primary key
+#  name           :string(255)
+#  occurrence     :string(255)
+#  start_at       :datetime
+#  job_name       :string(255)
+#  job_arguments  :json
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  priority       :integer          default("10")
+#  job_id         :integer
+#  frequency      :string(255)      default("")
+#  execution_time :text(65535)
+
+
+valid_event:
+  name: MyString
+  occurrence: 
+  start_at: DateTime.now
+  frequency: 1  
+  job_name: MyString
+  job_arguments: 
+  priority:
+  job_id:
+  execution_time:
+
+two:
+  name: MyString
+  occurrence: 
+  start_at:
+  frequency: 1  
+  job_name: MyString
+  job_arguments: 
+  priority:
+  job_id:
+  execution_time:

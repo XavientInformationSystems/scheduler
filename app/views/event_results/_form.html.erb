@@ -1,0 +1,45 @@
+<%= form_for(event_result, :html => {:class => "form-horizontal well"}) do |f| %>
+  <fieldset>
+    <legend>Schedule SubEvent</legend>
+  </fieldset>
+  <% if event_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event_result.errors.count, "error") %> prohibited this Sub event from being saved:</h2>
+
+      <ul>
+      <% event_result.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :priority, class: "col-lg-2 control-label" %>
+    <div class="col-lg-2">
+      <%= f.select :priority, 0..10, {:selected => 10}, class: "form-control" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <%= f.label :run_at, class: "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.datetime_select :run_at, {:order => [:day, :month, :year], min: Time.now}, class: "time-select" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <%#= f.label :job_arguments, class: "col-lg-2 control-label" %>
+    <div class="col-lg-6">
+      <%#= f.text_area :job_arguments, class: "form-control" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-2">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+      <!-- <button type="reset" class="btn btn-default">Cancel</button> -->
+    </div>  
+  </div>
+  </fieldset>
+<% end %>

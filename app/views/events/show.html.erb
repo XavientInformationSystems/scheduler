@@ -1,0 +1,80 @@
+<%= render "show_buttons" %>
+
+<blockquote>
+  <p>
+    <p>
+      <strong>Name:</strong>
+      <%= @event.name %>
+    </p>
+
+    <p>
+      <strong>Occurrence:</strong>
+      <%= @event.occurrence.camelize %>
+    </p>
+    <p>
+      <strong>Frequency:</strong>
+      <%= @event.frequency.camelize %>
+    </p>
+    
+    <p>
+      <strong>Scheduled At:</strong>
+      <%= @event.start_at.strftime("%d-%B-%Y - %a - %I:%M %p") %>
+    </p>
+    <% if @event.occurrence.eql?("reccurring") %>
+    <p>
+      <strong>Execution Scheduled At:</strong><br>      
+      <% @event.event_results.each do |er| %>
+        <%= er.run_at.strftime("%d-%B-%Y - %a - %I:%M %p") %><br>
+      <% end %>
+    </p>
+    <% end %>
+    <p>
+      <strong>Job name:</strong>
+      <%= @event.job_name %>
+    </p>
+
+    <p>
+      <strong>Job arguments:</strong>
+      <%= @event.job_arguments %>
+    </p>
+
+  </p>
+  <small>SubEvents:</small>    
+      <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+            <th>#</th>
+              <th>In Queue</th>
+              <th>Scheduled Time</th>
+              <th>Status</th>      
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+          <tbody>  
+      <% @event.event_results.each_with_index do |er, index| %>
+        <tr class="active">
+          <td><%= index + 1 %></td>
+          <td><%= er.queue %></td>              
+          <td> <%= er.run_at > Time.now ? "will happen in" : "happened in" %> <%= time_ago_in_words(er.run_at) %> </td>
+          <td><span class="label label-<%= get_event_status_class(er.status) %>"><%= er.status %></span></td>
+          <% if er.status.eql?("Processing") or er.status.eql?("Enqueued") %>
+            <td><%= link_to "Stop", stop_event_result_path(er), class: "btn btn-danger btn-xs" %></td>
+          <% else %>
+            <% if er.status.eql?("Scheduled") %>
+              <td><%= link_to "Enqueue", start_event_result_path(er), class: "btn btn-primary btn-xs" %></td>
+            <% else %>  
+              <td><%= link_to 'Reschedule', edit_event_result_path(er), class: "btn btn-warning btn-xs" %></td>
+            <% end %>            
+            <td><%= link_to 'Remove', er, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs"%></td>
+          <% end %>
+        </tr>
+        <% unless er.last_error.blank? %>
+          <%= er.last_error %><br>
+          Occured at : <%= er.failed_at %> 
+        <% end %>  
+    <% end %>  
+    </tbody>
+  </table>
+</blockquote>
+
+<%= render "show_buttons" %>

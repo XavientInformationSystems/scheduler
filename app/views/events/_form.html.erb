@@ -1,0 +1,80 @@
+<%= form_for(event, :html => {:class => "form-horizontal well"}) do |f| %>
+  <fieldset>
+    <legend>Schedule an Event</legend>
+  </fieldset>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, class: "col-lg-2 control-label" %>
+    <div class="col-lg-6">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <%= f.label :priority, class: "col-lg-2 control-label" %>
+    <div class="col-lg-2">
+      <%= f.select :priority, 0..10, {:selected => 10}, class: "form-control" %>
+    </div>  
+  </div>
+
+
+  <div class="form-group">
+    <%= f.label :occurrence, class: "col-lg-2 control-label" %>
+    <div class="col-lg-2">
+      <%= f.select :occurrence, [['Single',"Once"],['Reccurring','reccurring']], {}, class: "form-control" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <%= f.label :start_at, class: "col-lg-2 control-label" %>
+    <div class="col-lg-10">
+      <%= f.datetime_select :start_at, {:order => [:day, :month, :year], min: Time.now}, class: "time-select" %>
+    </div>  
+  </div>
+
+
+  <div class="form-group" id="reccurring-select">
+    <%= f.label :frequency, class: "col-lg-2 control-label" %>
+    <div class="col-lg-2">
+      <%= f.select :frequency, [['Every Minute',"minute-wise"],['Every Hour','hour-wise'],["Every Day","day-wise"],
+      ["Every Week","week-wise"], ["Every Month","month-wise"], ["Every Year","year-wise"]], {}, class: "form-control", id: "frequency-reccurring-select" %>
+    </div>
+    <div class="col-lg-2">
+      <%= f.select :execution_time, 0...60, { }, :multiple => true, :size => 5, class: "form-control", id: "frequency-reccurring-options" %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.label :job_name, class: "col-lg-2 control-label" %>
+    <div class="col-lg-6">
+      <%= f.text_field :job_name, class: "form-control" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <%= f.label :job_arguments, class: "col-lg-2 control-label" %>
+    <div class="col-lg-6">
+      <%= f.text_area :job_arguments, class: "form-control" %>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-2">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+      <!-- <button type="reset" class="btn btn-default">Cancel</button> -->
+    </div>  
+  </div>
+  </fieldset>
+<% end %>

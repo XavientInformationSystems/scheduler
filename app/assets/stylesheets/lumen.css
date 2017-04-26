@@ -1,0 +1,23 @@
+/* Lumen
+ * Bootswatch
+ *= require_self
+ *= require lumen/loader
+ *= require lumen/bootswatch
+ *= require bootstrap-datetimepicker
+*/
+body{
+    padding-top: 60px;
+}
+.time-select { 
+    display: inline-block;
+    width: 19%;
+    height: 38px;
+    padding: 7px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+}
